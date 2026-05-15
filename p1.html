@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeedNest | الصفحة الرئيسية</title>
+  <link rel="icon" href="img1.PNG">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+    :root{
+      --bg:#06130b; --bg2:#0b1f12; --card:rgba(10,28,16,.82);
+      --line:rgba(53,242,143,.16); --text:#effff3; --muted:#9fc8ad;
+      --green:#35f28f; --green2:#16c96e; --danger:#ff6b6b; --shadow:0 16px 40px rgba(0,0,0,.34);
+    }
+    *{box-sizing:border-box;font-family:'Cairo',sans-serif}
+    body{margin:0;min-height:100vh;color:var(--text);background:linear-gradient(135deg,var(--bg),var(--bg2))}
+    .wrap{width:min(1220px,calc(100vw - 20px));margin:0 auto;padding:16px 0 32px}
+    .topbar{
+      position:sticky;top:12px;z-index:5;background:var(--card);border:1px solid var(--line);
+      box-shadow:var(--shadow);border-radius:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,var(--green),#b9ffd6);display:grid;place-items:center;color:#053019;font-weight:900;font-size:20px}
+    h1{margin:0;font-size:21px}
+    .sub{margin-top:3px;color:var(--muted);font-size:13px}
+    .panel-hidden{display:none !important}
+    .chip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:9px 12px;font-size:13px;font-weight:800}
+    .chip strong{color:var(--green)}
+    .btn{border:none;cursor:pointer;padding:12px 14px;border-radius:14px;font-weight:800;font-size:15px;transition:.2s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{background:linear-gradient(135deg,var(--green),#b9ffd6);color:#06220f}
+    .btn.secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.08)}
+    .btn.danger{background:linear-gradient(135deg,#ff7a7a,#ff9e9e);color:#fff}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-top:16px}
+    .card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:22px;padding:16px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .hero{min-height:190px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(53,242,143,.08),rgba(22,201,110,.04))}
+    .hero h2{margin:0;font-size:28px}
+    .hero p{margin:0;color:var(--muted);line-height:2}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;line-height:1.8}
+    .item strong{display:block;color:var(--green);margin-bottom:2px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+    .section-title h3{margin:0;font-size:18px}
+    .section-title .small{color:var(--muted);font-size:13px}
+    .profile{display:grid;gap:12px}
+    .profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    label{display:block;margin-bottom:6px;font-size:13px;color:#d8ffe6;font-weight:700}
+    input{
+      width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);color:var(--text);outline:none;font-size:15px
+    }
+    .muted-box{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.12);color:var(--muted);line-height:1.9}
+    .status{display:none;margin-top:12px;padding:12px 14px;border-radius:14px;line-height:1.8;border:1px solid transparent;white-space:pre-wrap}
+    .status.show{display:block}
+    .status.ok{background:rgba(53,242,143,.1);border-color:rgba(53,242,143,.25)}
+    .status.err{background:rgba(255,107,107,.1);border-color:rgba(255,107,107,.25)}
+    .blocked{border:1px solid rgba(255,107,107,.3);background:rgba(255,107,107,.09);padding:18px;border-radius:20px;line-height:2}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:10;display:none;align-items:center;justify-content:center;padding:16px}
+    .modal.show{display:flex}
+    .modal-box{width:min(720px,100%);max-height:90vh;overflow:auto;background:#08150d;border-radius:22px;border:1px solid var(--line);box-shadow:var(--shadow);padding:18px}
+    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
+    .xbtn{width:40px;height:40px;border-radius:12px;border:none;cursor:pointer;background:#17391f;color:#d8ffe6;font-size:22px;font-weight:900}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+    @media (max-width: 640px){ .profile-grid,.row{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div class="modal" id="termsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 style="margin:0">الشروط والأحكام</h2>
+        <button class="xbtn" id="closeTerms" type="button">×</button>
+      </div>
+      <div id="termsBody" class="muted-box" style="white-space:pre-wrap;font-size:15px"></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">S</div>
+        <div>
+          <h1>SpeedNest</h1>
+          <div class="sub">الصفحة الرئيسية بعد تسجيل الدخول</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div class="chip">ID: <strong id="userId">-----</strong></div>
+        <div class="chip">الكوينز: <strong id="coins">0</strong></div>
+        <button class="btn secondary" id="btnTerms" type="button">الشروط</button>
+        <button class="btn danger" id="btnLogout" type="button">خروج</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main class="card">
+        <div class="section-title">
+          <h3>بيانات الحساب</h3>
+          <div class="small">لوحة المستخدم</div>
+        </div>
+
+        <div id="blockedBox" class="blocked" style="display:none"></div>
+
+        <div id="contentBox">
+          <div class="row">
+            <div class="item"><strong>الاسم</strong><span id="nameVal">-</span></div>
+            <div class="item"><strong>البريد</strong><span id="emailVal">-</span></div>
+          </div>
+          <div class="row">
+            <div class="item"><strong>العمر</strong><span id="ageVal">-</span></div>
+            <div class="item"><strong>الهدف</strong><span id="goalVal">-</span></div>
+          </div>
+          <div class="row">
+            <div class="item"><strong>الموقع</strong><span id="locationVal">-</span></div>
+            <div class="item"><strong>اللغة</strong><span id="languageVal">-</span></div>
+          </div>
+          <div class="row">
+            <div class="item"><strong>الهاتف</strong><span id="phoneVal">-</span></div>
+            <div class="item"><strong>تاريخ الإنشاء</strong><span id="createdVal">-</span></div>
+          </div>
+          <div class="status" id="statusBox"></div>
+          <div class="muted-box" style="margin-top:12px">هذه صفحة المستخدم، ولو الحساب الأدمن يتم تحويله مباشرة إلى <b>admin.html</b>.</div>
+        </div>
+      </main>
+
+      <aside class="card panel-hidden" id="profilePanel">
+        <div class="section-title">
+          <h3>روابط سريعة</h3>
+          <div class="small">الدعم والتحكم</div>
+        </div>
+        <div class="profile">
+          <button class="btn primary" id="btnWhatsApp" type="button">تواصل واتساب</button>
+          <button class="btn secondary" id="btnToggleProfile" type="button">عرض بياناتي</button>
+          <button class="btn secondary" id="btnGoAdmin" type="button" style="display:none">فتح لوحة الأدمن</button>
+
+          <div class="profile-grid">
+            <div><label>الاسم</label><input id="profileName" disabled></div>
+            <div><label>العمر</label><input id="profileAge" disabled></div>
+            <div><label>الهدف</label><input id="profileGoal" disabled></div>
+            <div><label>الموقع</label><input id="profileLocation" disabled></div>
+            <div><label>اللغة</label><input id="profileLanguage" disabled></div>
+            <div><label>الهاتف</label><input id="profilePhone" disabled></div>
+            <div><label>البريد</label><input id="profileEmail" disabled></div>
+            <div><label>الـ ID</label><input id="profileUserId" disabled></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db, SUPPORT_WHATSAPP, ADMIN_EMAIL, INDEX_PAGE, ADMIN_PAGE } from "./firebase-init.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { doc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const $ = (id) => document.getElementById(id);
+    const statusBox = $("statusBox");
+    const termsModal = $("termsModal");
+    const termsBody = $("termsBody");
+
+    function go(url){ window.location.replace(url); }
+    function showStatus(message, ok=true) {
+      statusBox.textContent = message;
+      statusBox.className = `status show ${ok ? "ok" : "err"}`;
+    }
+    function clearStatus() { statusBox.textContent = ""; statusBox.className = "status"; }
+    function openTerms() { termsModal.classList.add("show"); }
+    function closeTerms() { termsModal.classList.remove("show"); }
+
+    $("btnTerms").addEventListener("click", async () => {
+      const snap = await getDoc(doc(db, "settings", "app"));
+      const data = snap.exists() ? snap.data() : {};
+      termsBody.textContent = data.termsText || "لا توجد شروط محفوظة بعد.";
+      openTerms();
+    });
+    $("closeTerms").addEventListener("click", closeTerms);
+    termsModal.addEventListener("click", (e) => { if (e.target === termsModal) closeTerms(); });
+
+    $("btnWhatsApp").addEventListener("click", () => {
+      const msg = encodeURIComponent("أريد التواصل بخصوص حسابي في SpeedNest");
+      window.open(`https://wa.me/${SUPPORT_WHATSAPP}?text=${msg}`, "_blank", "noopener,noreferrer");
+    });
+
+    $("btnGoAdmin").addEventListener("click", () => go(ADMIN_PAGE));
+    $("btnLogout").addEventListener("click", async () => {
+      await signOut(auth);
+      go(INDEX_PAGE);
+    });
+
+    async function loadProfile(user) {
+      const snap = await getDoc(doc(db, "users", user.uid));
+      return snap.exists() ? snap.data() : null;
+    }
+
+    async function ensureAdminProfile(user) {
+      if ((user.email || "").toLowerCase() !== ADMIN_EMAIL.toLowerCase()) return null;
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        return null;
+      }
+      return snap.data();
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        go(INDEX_PAGE);
+        return;
+      }
+
+      try {
+        const adminProfile = await ensureAdminProfile(user);
+        const profilePanel = $("profilePanel");
+        const btnGoAdmin = $("btnGoAdmin");
+        const btnToggleProfile = $("btnToggleProfile");
+
+        if (adminProfile) {
+          btnGoAdmin.style.display = "inline-flex";
+          btnGoAdmin.addEventListener("click", () => go(ADMIN_PAGE));
+        } else {
+          btnGoAdmin.style.display = "none";
+        }
+
+        if (!btnToggleProfile.dataset.bound) {
+          btnToggleProfile.dataset.bound = "1";
+          btnToggleProfile.addEventListener("click", () => {
+          profilePanel.classList.toggle("panel-hidden");
+          btnToggleProfile.textContent = profilePanel.classList.contains("panel-hidden") ? "عرض بياناتي" : "إخفاء بياناتي";
+          });
+        }
+
+        if (adminProfile) {
+          go(ADMIN_PAGE);
+          return;
+        }
+
+        const profile = await loadProfile(user);
+        if (!profile) {
+          showStatus("لم يتم العثور على بيانات الحساب. أعد إنشاء الحساب.", false);
+          await signOut(auth);
+          return;
+        }
+
+        if (profile.isBanned) {
+          $("blockedBox").style.display = "block";
+          $("contentBox").style.display = "none";
+          $("blockedBox").textContent = "هذا الحساب محظور. تواصل مع الدعم من واتساب للمراجعة.";
+          await signOut(auth);
+          return;
+        }
+
+        $("userId").textContent = profile.userId || "-----";
+        $("coins").textContent = Number(profile.coins || 0);
+        $("nameVal").textContent = profile.name || "-";
+        $("emailVal").textContent = profile.email || user.email || "-";
+        $("ageVal").textContent = profile.age ?? "-";
+        $("goalVal").textContent = profile.goal || "-";
+        $("locationVal").textContent = profile.location || "-";
+        $("languageVal").textContent = profile.language || "-";
+        $("phoneVal").textContent = profile.phone || "-";
+        $("createdVal").textContent = profile.createdAt?.toDate ? profile.createdAt.toDate().toLocaleString("ar-EG") : "-";
+
+        $("profileName").value = profile.name || "";
+        $("profileAge").value = profile.age ?? "";
+        $("profileGoal").value = profile.goal || "";
+        $("profileLocation").value = profile.location || "";
+        $("profileLanguage").value = profile.language || "";
+        $("profilePhone").value = profile.phone || "";
+        $("profileEmail").value = profile.email || "";
+        $("profileUserId").value = profile.userId || "";
+
+        // keep profile hidden until user clicks the toggle button
+        profilePanel.classList.add("panel-hidden");
+        btnToggleProfile.textContent = "عرض بياناتي";
+
+        clearStatus();
+      } catch (err) {
+        showStatus("تعذر تحميل بيانات الحساب.", false);
+      }
+    });
+  </script>
+</body>
+</html>
